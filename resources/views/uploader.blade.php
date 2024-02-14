@@ -21,10 +21,10 @@
                     <img src="/images/wemod.png" />
                 </div>
 
-                <form onsubmit="return uploadFile()" action="javascript:void(0);">
+                <form onsubmit="return uploadFile(this)" action="javascript:void(0);">
                     <div>
                         <input class="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file">
-                        <button type="submit" class="w-full mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Upload</button>
+                        <button type="submit" class="disabled:bg-blue-300 w-full mt-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Upload</button>
                     </div>
                 </form>
             </div>
@@ -177,11 +177,14 @@
                 hideSpinner();
             }
 
-            async function uploadFile() {
+            async function uploadFile(formEl) {
+                let button = formEl.querySelector('button');
+                button.disabled = true;
                 let formData = new FormData();
                 formData.append("file", document.getElementById('file_input').files[0]);
                 const response = await callApi('/api/v1/urls/upload', 'POST', formData, true);
                 alert(response.message);
+                button.disabled = false;
                 await fetchRecent();
                 return false;
             }
