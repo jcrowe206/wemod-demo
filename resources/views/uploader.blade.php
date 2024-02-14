@@ -80,7 +80,7 @@
                     </div>
                     <div id="details">
                         <h3>Details</h3>
-                        <div id="code-details">
+                        <div id="code-details" class="pb-5">
 
                         </div>
                     </div>
@@ -142,15 +142,17 @@
             async function detailsClicked(element)
             {
                 detailsLoading();
+                const wrapper = document.getElementById('details-wrapper');
+                wrapper.scrollIntoView();
                 const id = element.dataset.rowId;
                 const details = await callApi('/api/v1/short-codes/' + id, 'get');
-                const detailsInfoEl = document.getElementById('code-details');
                 const append = '<label class="block">' +
                     'Short Code:' + details.short_code.short_code + '</label>' +
                     '<label class="block">Num Visits: ' + details.short_code.num_visits + '</label>'
+                const detailsInfoEl = document.getElementById('code-details');
                 detailsInfoEl.innerHTML = append;
                 detailsDoneLoading();
-
+                detailsInfoEl.scrollIntoView(true);
             }
 
             async function fetchRecent() {
