@@ -24,9 +24,11 @@ return new class extends Migration
         Schema::create('url_short_codes', function(Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('url_id');
-            $table->string('short_code')->charset('utf8')->collate('utf8_cs')->unique();
+            $scColumn = $table->string('short_code')->unique();
             $table->timestamps();
 
+            $scColumn->charset = 'utf8';
+            $scColumn->collation = 'utf8_bin';
             $table->foreign('url_id', 'url_short_codes_url_id_fk')->references('id')->on('urls');
 
         });
